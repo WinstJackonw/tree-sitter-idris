@@ -8,6 +8,9 @@
       "file-types": [
         "idr"
       ],
+      "highlights": [
+        "queries/highlights.scm"
+      ],
       "injection-regex": "^idris$"
     }
   ],

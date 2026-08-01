@@ -13,7 +13,10 @@
 [
   (string)
   (triple_quote_string)
+  (raw_string)
 ] @string
+
+(interpolation) @embedded
 
 (comment) @comment
 
@@ -32,6 +35,24 @@
 ] @punctuation.bracket
 
 (comma) @punctuation.delimiter
+
+[
+  (string
+    "\\{" @punctuation.special)
+  (triple_quote_string
+    "\\{" @punctuation.special)
+  (raw_string
+    "\\#{" @punctuation.special)
+]
+
+[
+  (string
+    "}" @punctuation.special)
+  (triple_quote_string
+    "}" @punctuation.special)
+  (raw_string
+    "}" @punctuation.special)
+]
 
 ; ------------------------------------------------------------------------------
 ; Types
