@@ -444,3 +444,40 @@ isFreeOf x ty
             (loname))
           (exp_name
             (caname)))))))
+
+================================================================================
+Let RHS continued after an operator
+================================================================================
+
+_ = do
+  let source = "first" ++
+      "second" ++
+      "third"
+  writeFile "Program.cs" source
+
+--------------------------------------------------------------------------------
+
+(idris
+  (function
+    (lhs
+      (wildcard))
+    (rhs
+      (exp_do
+        (statement
+          (let
+            (declarations
+              (lhs
+                (pat_name
+                  (loname)))
+              (rhs
+                (string)
+                (operator)
+                (string)
+                (operator)
+                (string)))))
+        (statement
+          (exp_name
+            (loname))
+          (string)
+          (exp_name
+            (loname)))))))

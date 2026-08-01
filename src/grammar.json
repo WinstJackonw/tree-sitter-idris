@@ -1736,6 +1736,45 @@
         }
       ]
     },
+    "_left_operator_section": {
+      "type": "PREC_DYNAMIC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_aexp_without_operator"
+            }
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "operator"
+                },
+                {
+                  "type": "REPEAT1",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_aexp_without_operator"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "SYMBOL",
+            "name": "operator"
+          }
+        ]
+      }
+    },
     "exp_idiom": {
       "type": "SEQ",
       "members": [
@@ -3638,6 +3677,15 @@
               "type": "ALIAS",
               "content": {
                 "type": "SYMBOL",
+                "name": "_left_operator_section"
+              },
+              "named": true,
+              "value": "exp_parens"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
                 "name": "_type_parens"
               },
               "named": true,
@@ -3664,7 +3712,7 @@
         }
       ]
     },
-    "_aexp": {
+    "_aexp_without_operator": {
       "type": "CHOICE",
       "members": [
         {
@@ -3713,10 +3761,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "operator"
-        },
-        {
-          "type": "SYMBOL",
           "name": "_string"
         },
         {
@@ -3745,15 +3789,43 @@
         }
       ]
     },
+    "_aexp": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_aexp_without_operator"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "operator"
+        }
+      ]
+    },
     "_aexps": {
       "type": "PREC_RIGHT",
       "value": 0,
       "content": {
-        "type": "REPEAT1",
-        "content": {
-          "type": "SYMBOL",
-          "name": "_aexp"
-        }
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_aexp_without_operator"
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_aexp"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_aexps"
+              }
+            ]
+          }
+        ]
       }
     },
     "_sexp": {
@@ -3829,8 +3901,11 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_aexps"
+              "type": "REPEAT1",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_aexp"
+              }
             },
             {
               "type": "SYMBOL",
@@ -7309,10 +7384,6 @@
       "pat_list"
     ],
     [
-      "_aexp",
-      "_apat"
-    ],
-    [
       "_name",
       "_name_op",
       "interface_name"
@@ -7400,13 +7471,17 @@
       "_apat"
     ],
     [
-      "_avar",
-      "_aexp",
+      "_aexp_without_operator",
       "_apat"
     ],
     [
       "_avar",
-      "_aexp"
+      "_aexp_without_operator",
+      "_apat"
+    ],
+    [
+      "_avar",
+      "_aexp_without_operator"
     ],
     [
       "alts"
@@ -7427,10 +7502,6 @@
       "pat_op"
     ],
     [
-      "_parens_operator",
-      "_aexp"
-    ],
-    [
       "equal",
       "pat_braces"
     ],
@@ -7445,6 +7516,18 @@
     [
       "qualified_caname",
       "_name"
+    ],
+    [
+      "_aexp",
+      "_aexps"
+    ],
+    [
+      "_left_operator_section",
+      "_aexp"
+    ],
+    [
+      "_aexps",
+      "_exp"
     ],
     [
       "_exp"

@@ -92,7 +92,6 @@ export default grammar({
      * immediate lookahead.
      */
     [$.exp_list, $.pat_list],
-    [$._aexp, $._apat],
 
     // Names
     [$._name, $._name_op, $.interface_name],
@@ -130,8 +129,9 @@ export default grammar({
 
     // Variable names
     [$._avar, $._apat],
-    [$._avar, $._aexp, $._apat],
-    [$._avar, $._aexp],
+    [$._aexp_without_operator, $._apat],
+    [$._avar, $._aexp_without_operator, $._apat],
+    [$._avar, $._aexp_without_operator],
 
     // Case alts
     [$.alts],
@@ -143,11 +143,13 @@ export default grammar({
 
     // Misc
     [$.operator, $.pat_op],
-    [$._parens_operator, $._aexp],
     [$.equal, $.pat_braces],
     [$._q_name_op, $._funvar],
     [$.qualified_loname, $._name],
     [$.qualified_caname, $._name],
+    [$._aexp, $._aexps],
+    [$._left_operator_section, $._aexp],
+    [$._aexps, $._exp],
     [$._exp],
     [$.pragma_foreign],
   ],

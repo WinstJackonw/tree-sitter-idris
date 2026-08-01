@@ -22,6 +22,17 @@ export default {
 
   exp_parens: $ => parens($._exp),
 
+  // Left operator sections, such as `(value ::)`, intentionally end in an
+  // operator even though ordinary expressions may not.
+  _left_operator_section: $ => prec.dynamic(1, seq(
+    repeat1($._aexp_without_operator),
+    repeat(seq(
+      $.operator,
+      repeat1($._aexp_without_operator),
+    )),
+    $.operator,
+  )),
+
   exp_idiom: $ => idiom_brackets($._exp),
 
   exp_list: $ => choice(
@@ -302,6 +313,7 @@ export default {
   _parens: $ => parens(
     choice(
       alias($._exp, $.exp_parens),
+      alias($._left_operator_section, $.exp_parens),
       alias($._type_parens, $.type_parens),
     ),
   ),
@@ -313,7 +325,7 @@ export default {
 
   // ----- Composite expressions ----------------------------------------------
 
-  _aexp: $ => choice(
+  _aexp_without_operator: $ => choice(
     $.hole,
     $.exp_name,
     $.exp_ticked,
@@ -325,7 +337,6 @@ export default {
     $.exp_record_access,
     $.exp_tuple,
     $.exp_quasiquotation,
-    $.operator,
     $._string,
     $.literal,
     $.wildcard,
@@ -335,7 +346,18 @@ export default {
     $._braces,
   ),
 
-  _aexps: $ => prec.right(repeat1($._aexp)),
+  _aexp: $ => choice(
+    $._aexp_without_operator,
+    $.operator,
+  ),
+
+  // A complete expression cannot end with an operator. Besides rejecting an
+  // incomplete expression, this keeps a newline after an operator from being
+  // interpreted as a layout semicolon.
+  _aexps: $ => prec.right(choice(
+    $._aexp_without_operator,
+    seq($._aexp, $._aexps),
+  )),
 
   _sexp: $ => prec.right(choice(
     $.exp_lambda,
@@ -351,6 +373,9 @@ export default {
   _exp: $ => choice(
     seq($._aexps, optional($.exp_bar_arg)),
     $._sexp,
-    seq($._aexps, $._sexp),
+    // An operator immediately before a special expression is complete because
+    // the special expression supplies its right-hand side (for example,
+    // `f $ \case ...`).
+    seq(repeat1($._aexp), $._sexp),
   ),
 };
