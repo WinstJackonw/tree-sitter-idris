@@ -14,6 +14,8 @@ import {
 
 export default {
 
+  expression: $ => $._exp,
+
   // ----- Identifiers and modifiers ------------------------------------------
 
   exp_name: $ => $._q_name_op,

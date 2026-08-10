@@ -72,6 +72,70 @@
               ]
             }
           ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "expression"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "PREC_DYNAMIC",
+                        "value": 1,
+                        "content": {
+                          "type": "CHOICE",
+                          "members": [
+                            {
+                              "type": "STRING",
+                              "value": ";"
+                            },
+                            {
+                              "type": "SYMBOL",
+                              "name": "_layout_semicolon"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "expression"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ";"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_layout_semicolon"
+                    }
+                  ]
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -1697,6 +1761,10 @@
           }
         }
       ]
+    },
+    "expression": {
+      "type": "SYMBOL",
+      "name": "_exp"
     },
     "exp_name": {
       "type": "SYMBOL",

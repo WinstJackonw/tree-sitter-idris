@@ -158,6 +158,7 @@ export default grammar({
     idris: $ => choice(
       $.empty_file,
       terminated($, $._topdecl),
+      terminated($, $.expression),
     ),
 
     _topdecl: $ => choice(

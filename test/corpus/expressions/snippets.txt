@@ -1,0 +1,151 @@
+================================================================================
+Standalone expression snippet
+================================================================================
+
+withContext $ \context =>
+  withModule context "example" $ \mod => do
+    integerType <- i32 context
+    signature <- functionType integerType [integerType] False
+    function <- addFunction mod "identity" signature
+    argument <- parameter function 0
+    case argument of
+      Nothing => pure ()
+      Just value => do
+        entry <- appendBasicBlock context function "entry"
+        withBuilder context $ \builder => do
+          positionAtEnd builder entry
+          _ <- buildRet builder value
+          pure ()
+
+--------------------------------------------------------------------------------
+
+(idris
+  (expression
+    (exp_name
+      (loname))
+    (operator)
+    (exp_lambda
+      (lambda_args
+        (pat_name
+          (loname)))
+      (lambda_exp
+        (exp_name
+          (loname))
+        (exp_name
+          (loname))
+        (string)
+        (operator)
+        (exp_lambda
+          (lambda_args
+            (pat_name
+              (loname)))
+          (lambda_exp
+            (exp_do
+              (statement
+                (bind_pattern
+                  (pat_name
+                    (loname))
+                  (bind_exp
+                    (exp_name
+                      (loname))
+                    (exp_name
+                      (loname)))))
+              (statement
+                (bind_pattern
+                  (pat_name
+                    (loname))
+                  (bind_exp
+                    (exp_name
+                      (loname))
+                    (exp_name
+                      (loname))
+                    (exp_list
+                      (exp_name
+                        (loname)))
+                    (exp_name
+                      (caname)))))
+              (statement
+                (bind_pattern
+                  (pat_name
+                    (loname))
+                  (bind_exp
+                    (exp_name
+                      (loname))
+                    (exp_name
+                      (loname))
+                    (string)
+                    (exp_name
+                      (loname)))))
+              (statement
+                (bind_pattern
+                  (pat_name
+                    (loname))
+                  (bind_exp
+                    (exp_name
+                      (loname))
+                    (exp_name
+                      (loname))
+                    (literal
+                      (integer)))))
+              (statement
+                (exp_case
+                  condition: (exp_name
+                    (loname))
+                  (alts
+                    (alt
+                      pat: (pat_name
+                        (caname))
+                      exp: (exp_name
+                        (loname))
+                      exp: (unit))
+                    (alt
+                      pat: (pat_name
+                        (caname))
+                      pat: (pat_name
+                        (loname))
+                      exp: (exp_do
+                        (statement
+                          (bind_pattern
+                            (pat_name
+                              (loname))
+                            (bind_exp
+                              (exp_name
+                                (loname))
+                              (exp_name
+                                (loname))
+                              (exp_name
+                                (loname))
+                              (string))))
+                        (statement
+                          (exp_name
+                            (loname))
+                          (exp_name
+                            (loname))
+                          (operator)
+                          (exp_lambda
+                            (lambda_args
+                              (pat_name
+                                (loname)))
+                            (lambda_exp
+                              (exp_do
+                                (statement
+                                  (exp_name
+                                    (loname))
+                                  (exp_name
+                                    (loname))
+                                  (exp_name
+                                    (loname)))
+                                (statement
+                                  (bind_pattern
+                                    (wildcard)
+                                    (bind_exp
+                                      (exp_name
+                                        (loname))
+                                      (exp_name
+                                        (loname))
+                                      (exp_name
+                                        (loname)))))
+                                (statement
+                                  (exp_name
+                                    (loname))
+                                  (unit))))))))))))))))))

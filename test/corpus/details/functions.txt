@@ -386,15 +386,17 @@ f (X {_}) = _
 
 --------------------------------------------------------------------------------
 
-(ERROR
-  (exp_name
-    (loname))
-  (exp_parens
+(idris
+  (expression
     (exp_name
-      (caname))
-    (type_braces
-      (wildcard)))
-  (wildcard))
+      (loname))
+    (exp_parens
+      (exp_name
+        (caname))
+      (type_braces
+        (wildcard))))
+  (ERROR
+    (wildcard)))
 
 ================================================================================
 Explicit args in declaration, destruction with a args and wildcard
